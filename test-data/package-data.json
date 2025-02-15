@@ -1,0 +1,16 @@
+{
+  "data-set1": {
+    "title": "Moshi Moshi",
+    "coverage": "Japan",
+    "data": "1 GB",
+    "validity": "7 Days",
+    "price": "$4.50 USD"
+  },
+  "data-set2": {
+    "title": "Moshi Moshi",
+    "coverage": "Japan",
+    "data": "2 GB",
+    "validity": "15 Days",
+    "price": "$6.50 USD"
+  }
+}
