@@ -5,12 +5,12 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: 1,
-  workers: 3,
+  workers: 2,
   reporter: 'html',
   use: {
     trace: 'on-first-retry',
   },
-  globalSetup: "./utils/global-setup.ts",
+  globalSetup: './utils/global-setup.ts',
 
   projects: [
     {
