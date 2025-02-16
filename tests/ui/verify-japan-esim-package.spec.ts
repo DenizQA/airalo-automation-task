@@ -6,6 +6,7 @@ import PackageData from '../../test-data/package-data.json';
 import ENV from '../../utils/env';
 
 let context: BrowserContext;
+const location = 'Japan';
 
 // Define the structure of each data set (using a mapped type)
 type PackageDataSet = {
@@ -45,7 +46,7 @@ test.describe('Package Details test set 1', () => {
 
     // Search and select the desired country
     await page.waitForLoadState('load');
-    await HomeLandingPage.searchAndSelectCountry(page, 'Japan');
+    await HomeLandingPage.searchAndSelectCountry(page, location);
 
     // Choose the first eSIM package and ○n Click on "Buy Now."
     await BasePage.clickOnButton(page, 'Buy now', 0);
@@ -58,7 +59,7 @@ test.describe('Package Details test set 1', () => {
   test.skip('Verify eSIM Package Details for multiple packages (Japan)', async ({ page }) => {
     // Search and select the desired country
     await page.waitForLoadState('load');
-    await HomeLandingPage.searchAndSelectCountry(page, 'Japan');
+    await HomeLandingPage.searchAndSelectCountry(page, location);
 
     // Loop through the test data
     for (let i = 0; i < Object.keys(packageData).length; i++) {
