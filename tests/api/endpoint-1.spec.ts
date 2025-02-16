@@ -16,5 +16,6 @@ test.describe('Order eSIM API Tests', () => {
     const response = await orderEsim(apiContext, 'merhaba-7days-1gb', 'test: merhaba-7days-1gb', 6);
     expect(response.status()).toBe(200);
     const responseBody = await response.json();
+    expect(responseBody.data.package_id).toEqual('merhaba-7days-1gb');
   });
 });
