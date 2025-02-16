@@ -18,24 +18,25 @@ End to End testing suite template using:
 The authentication token used for API requests is valid for one year. To generate a new token, follow these steps:
 
 1. **Run the Token Generation Script**
-   Execute the following command to generate a new token:
+Execute the following command to generate a new token:
 
-```sh
-npm run generate-token
-```
+   ```sh
+   npm run generate-token
+   ```
 
-This command will generate a new token and store it temporarily in a file located at:
+   This command will generate a new token and store it temporarily in a file located at:
 
-```sh
-api/.auth.json
-```
+   ```sh
+   api/.auth.json
+   ```
+
 
 2. **Manually Update the `.env` File**
-   Once the token is generated, open the `.env` file and copy the generated token from the `api/.auth.json` file. Paste it under the following key:
+Once the token is generated, open the `.env` file and copy the generated token from the `api/.auth.json` file. Paste it under the following key:
 
-```sh
-CLIENT_TOKEN=your_generated_token_here
-```
+   ```sh
+   CLIENT_TOKEN=your_generated_token_here
+   ```
 
 **Why Manual Token Generation?**
 Since the token is valid for one year, generating it automatically for every test run would not be efficient. Instead, a one-time manual generation ensures that the token remains valid for an extended period. This method reduces the overhead of regenerating the token repeatedly, especially in CI/CD environments.
@@ -80,4 +81,3 @@ Only the Chrome browser is enabled in the configuration. Other browsers can be e
 ### API Tests
 
 **Description:** (Will be added once the API tests are in place.)
-**Authentication:** The API tests require an authentication token, which is generated via the sprint and updated in the .env file. This token is used in each request to authenticate API calls.
