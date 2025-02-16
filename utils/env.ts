@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 
 dotenv.config({
-  path: `.env.${process.env.test_env}`, // Adjust as needed
+  path: `.env.${process.env.test_env}`,
   override: true,
 });
 

@@ -10,35 +10,12 @@ End to End testing suite template using:
 1. Install the dependencies using `npm install` or `yarn install`
 2. Install the playwright using `npx playwright install`
 3. Rename `env.example` to `.env.dev`
-4. Check out the UI test by running `npm run env:dev:ui:test`
-5. Check out the API test by running `npm run env:dev:api:test`
+4. Check out the UI test by running `npm run test:ui:env:dev`
+5. Check out the API test by running `npm run test:api:env:dev`
 
 ## 🔑 Generating an Authentication Token
 
-The authentication token used for API requests is valid for one year. To generate a new token, follow these steps:
-
-1. **Run the Token Generation Script**
-Execute the following command to generate a new token:
-
-   ```sh
-   npm run generate-token
-   ```
-
-   This command will generate a new token and store it temporarily in a file located at:
-
-   ```sh
-   api/.auth.json
-   ```
-
-
-2. **Manually Update the `.env` File**
-Once the token is generated, open the `.env` file and copy the generated token from the `api/.auth.json` file. Paste it under the following key:
-
-   ```sh
-   CLIENT_TOKEN=your_generated_token_here
-   ```
-
-**Why Manual Token Generation?**
+**Why generating token every time?**
 Since the token is valid for one year, generating it automatically for every test run would not be efficient. Instead, a one-time manual generation ensures that the token remains valid for an extended period. This method reduces the overhead of regenerating the token repeatedly, especially in CI/CD environments.
 
 ## 📁 Structure
@@ -46,7 +23,7 @@ Since the token is valid for one year, generating it automatically for every tes
 ```sh
  |- utils       # Configuration file/s
  |- test-data   # JSON files with the data used for the tests
- |- pages       # Sets of pages for the applications
+ |- page        # Sets of pages for the applications
  |- tests       # Here is the magic 🧙‍♂️
  |- api         # API-related scripts and temporary auth storage
 ```
@@ -80,4 +57,21 @@ Only the Chrome browser is enabled in the configuration. Other browsers can be e
 
 ### API Tests
 
-**Description:** (Will be added once the API tests are in place.)
+**Authentication & Token Handling**
+
+**Why Generate the Token in beforeAll?**
+
+- The Airalo Partner API token is valid for one year, meaning it should ideally be cached or stored securely.
+- However, the task explicitly requires verifying a valid token before every request, so the simplest approach is generating it in beforeAll for this test suite.
+- In real-world scenarios, a token should be stored in environment variables (.env) or a secure key store and refreshed only when expired.
+
+**API Test Structure**
+
+1. Token Retrieval: The token is generated before the tests begin.
+2. Order Creation: The test orders six merhaba-7days-1gb eSIMs via a POST request.
+3. eSIM Retrieval & Validation: The test fetches the eSIM list and asserts that six correct eSIMs exist.
+4. Assertions:
+   - Status codes are validated (200 OK for successful responses)
+   - Response bodies are checked for expected fields and values
+
+This approach ensures API tests are efficient, maintainable, and compliant with the given task constraints.

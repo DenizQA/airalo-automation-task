@@ -2,17 +2,18 @@ import { APIRequestContext, APIResponse, expect } from '@playwright/test';
 import ENV from '../../utils/env';
 
 /**
- * Post and retrieve an authentication token.
+ * Retrieves an OAuth2 access token using client credentials.
  *
- * @param apiContext - The API context object.
- * @returns The authentication token.
+ * @param apiContext - The Playwright API request context.
+ * @returns A promise that resolves to the access token string.
+ * @throws An error if the token retrieval fails.
  */
 export async function postToken(apiContext: APIRequestContext): Promise<string> {
-  let postTokenResponse: APIResponse;
-  const loginTokenUrl = `${ENV.BASE_API_URL}/token`;
+  const tokenUrl = `${ENV.BASE_API_URL}/v2/token`;
+  let response: APIResponse;
 
   try {
-    postTokenResponse = await apiContext.post(loginTokenUrl, {
+    response = await apiContext.post(tokenUrl, {
       headers: { Accept: 'application/json' },
       form: {
         client_id: ENV.CLIENT_ID as string,
@@ -20,24 +21,20 @@ export async function postToken(apiContext: APIRequestContext): Promise<string> 
         grant_type: 'client_credentials',
       },
     });
-
-    // Check if the response is OK (status in the range 200-299)
-    if (!postTokenResponse.ok()) {
-      // If not OK, throw an error with a descriptive message
-      throw new Error(`Failed to retrieve token. Status: ${postTokenResponse.status()}`);
-    }
   } catch (error) {
-    // Handle errors in the API call
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    throw new Error(`Failed on API call to ${loginTokenUrl}. ${errorMessage}`);
+    throw new Error(`API call failed for token endpoint ${tokenUrl}. Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
-  const responseBody = await postTokenResponse.json();
 
-  // Assertions to ensure the response body contains the expected data
+  if (!response.ok()) {
+    throw new Error(`Failed to retrieve token. Status: ${response.status()}`);
+  }
+
+  const responseBody = await response.json();
+
+  // Validate the structure of the response
   expect(responseBody).toBeDefined();
   expect(responseBody).toHaveProperty('data');
   expect(responseBody.data).toHaveProperty('access_token');
 
-  // Return the access token
   return responseBody.data.access_token;
 }
