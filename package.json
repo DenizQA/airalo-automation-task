@@ -11,6 +11,8 @@
     "cross-env": "^7.0.3"
   },
   "scripts": {
-    "env:dev:ui:test": "cross-env test_env=dev npx playwright test tests/package-verification/"
+    "env:dev:ui:test": "cross-env test_env=dev npx playwright test tests/ui/",
+    "env:dev:api:test": "cross-env test_env=dev npx playwright test tests/api/endpoint-2.spec.ts",
+    "generate-token": "cross-env test_env=dev ts-node ./api/scripts/generateToken.ts"
   }
 }

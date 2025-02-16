@@ -10,7 +10,8 @@ End to End testing suite template using:
 1. Install the dependencies using `npm install` or `yarn install`
 2. Install the playwright using `npx playwright install`
 3. Rename `env.example` to `.env.dev`
-4. Check out the test by running the `npm run env:dev:ui:test`
+4. Check out the UI test by running the `npm run env:dev:ui:test`
+5. Check out the API test by running the `npm run env:dev:api:test`
 
 ## 📁 Structure
 
