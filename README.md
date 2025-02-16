@@ -15,18 +15,30 @@ End to End testing suite template using:
 
 ## 🔑 Generating an Authentication Token
 
-The authentication token expires every year. To generate a new token, run:
+The authentication token used for API requests is valid for one year. To generate a new token, follow these steps:
+
+1. **Run the Token Generation Script**
+   Execute the following command to generate a new token:
+
 ```sh
 npm run generate-token
 ```
-This script will store the new token in a temporary file located at:
+
+This command will generate a new token and store it temporarily in a file located at:
+
 ```sh
 api/.auth.json
 ```
-After generating the token, manually copy and paste it into the `.env` file under:
+
+2. **Manually Update the `.env` File**
+   Once the token is generated, open the `.env` file and copy the generated token from the `api/.auth.json` file. Paste it under the following key:
+
 ```sh
 CLIENT_TOKEN=your_generated_token_here
 ```
+
+**Why Manual Token Generation?**
+Since the token is valid for one year, generating it automatically for every test run would not be efficient. Instead, a one-time manual generation ensures that the token remains valid for an extended period. This method reduces the overhead of regenerating the token repeatedly, especially in CI/CD environments.
 
 ## 📁 Structure
 
@@ -46,13 +58,26 @@ Each page has its own dedicated Page file. Note that Page files do not necessari
 ## 🔬 Using data-test-id to target elements
 
 Playwright provides a powerful selector engine for targeting elements. As a general guideline for querying elements inside our tests/Page objects:
+
 1. Prefer user-facing and rarely changing attributes like `roles`, input `types`, etc.
 2. Use `data-test-id` responsibly.
 3. There is no one-size-fits-all approach.
 
 ## 👔 Test configuration
 
-The test suite is configured to run in the development environment (`dev`). Users can add different `.env` files to configure various environments or login data as needed. 
+The test suite is configured to run in the development environment (`dev`). Users can add different `.env` files to configure various environments or login data as needed.
 This flexibility allows for easy switching between different setups without modifying the code.
 
 Only the Chrome browser is enabled in the configuration. Other browsers can be enabled if needed.
+
+## 🧩 Test Approach
+
+### UI Tests
+
+**Reusable Data Setup:** Test data is handled through JSON files, allowing multiple test sets to be added and reused across different tests. The first test uses test-set 1 as required, and an additional skipped test shows how to test all packages for a specific country or location.
+**Test Structure:** The UI tests follow a modular approach, with functions designed for reuse and flexibility.
+
+### API Tests
+
+**Description:** (Will be added once the API tests are in place.)
+**Authentication:** The API tests require an authentication token, which is generated via the sprint and updated in the .env file. This token is used in each request to authenticate API calls.
