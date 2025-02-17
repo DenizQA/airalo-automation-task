@@ -11,10 +11,15 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
   globalSetup: './utils/global-setup.ts',
-
   projects: [
     {
-      name: 'chromium',
+      name: 'API Tests',
+      testMatch: ['tests/api/*.spec.ts'],
+      use: {},
+    },
+    {
+      name: 'UI Tests (Chromium)',
+      testMatch: ['tests/ui/*.spec.ts'],
       use: { ...devices['Desktop Chrome'] },
     },
 
