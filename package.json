@@ -11,7 +11,8 @@
     "cross-env": "^7.0.3"
   },
   "scripts": {
-    "test:ui:env:dev": "cross-env test_env=dev npx playwright test tests/ui/",
-    "test:api:env:dev": "cross-env test_env=dev npx playwright test tests/api/"
+    "test:ui:env:dev": "cross-env TEST_TYPE=ui test_env=dev npx playwright test tests/ui/",
+    "test:api:env:dev": "cross-env TEST_TYPE=api test_env=dev npx playwright test tests/api/",
+    "test:all:env:dev": "cross-env test_env=dev npx playwright test"
   }
 }
