@@ -11,8 +11,10 @@ End to End testing suite template using:
 2. Install the playwright using `npx playwright install`
 3. Rename `env.example` to `.env.dev`
 4. Add the required API credentials (`CLIENT_ID` and `CLIENT_SECRET`) to the newly created `.env.dev` file.
-   `CLIENT_ID`= {your_client_id_here}
-   `CLIENT_SECRET`= {your_client_secret_here}
+   ```sh
+      CLIENT_ID= {your_client_id_here}
+      CLIENT_SECRET= {your_client_secret_here}
+   ```
 5. Check out the UI test by running `npm run test:ui:env:dev`
 6. Check out the API test by running `npm run test:api:env:dev`
 7. Check out the all test by running `npm run test:all:env:dev`
@@ -53,9 +55,9 @@ Only the Chrome browser is enabled in the configuration. Other browsers can be e
 
 **Reusable Data Setup:**
 
-- Test data is handled through JSON files (`esim-data.json`), allowing multiple test sets to be added and reused across different test cases.
-- The first test verifies the details of the first eSIM package for Japan, using the dataset `data-set1`.
-- An additional skipped test demonstrates how to iterate over all available eSIM packages for a specific country (**Japan**) and verify each package dynamically.
+- Test data is handled through **JSON files** (`esim-data.json`), allowing multiple test sets to be added and reused across different test cases.
+- The first test verifies the details of the first eSIM package for **Japan**, using the dataset `data-set1`.
+- An additional **skipped** test demonstrates how to iterate over all available eSIM packages for a specific country (**Japan**) and verify each package dynamically.
 
 **Test Structure:**
 
