@@ -10,12 +10,15 @@ async function globalSetup() {
     });
   }
 
+  // Check if tests are API-based, if so, retrieve an access token
   if (!process.env.TEST_TYPE || process.env.TEST_TYPE === 'api') {
     const accessToken = await postToken();
-    const envPath = `.env.${process.env.test_env || 'default'}`;
+    const envPath = `.env.${process.env.test_env ?? 'default'}`;
 
+    // Read existing environment file content (if it exists)
     let envContent = fs.existsSync(envPath) ? fs.readFileSync(envPath, 'utf8') : '';
 
+    // Define regex to check if CLIENT_TOKEN already exists in the file
     const accessTokenRegex = /^CLIENT_TOKEN=.*$/m;
 
     if (accessTokenRegex.test(envContent)) {

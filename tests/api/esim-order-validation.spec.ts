@@ -17,7 +17,7 @@ test.describe('eSIM Ordering and Validation API Tests', () => {
     expect(orderData.data.quantity).toBe(testData.quantity);
     expect(orderData.data.description).toBe(testData.description);
 
-    const orderId = orderData.data.id; // More descriptive name
+    const orderId = orderData.data.id;
 
     // Step 2: Fetch the list of eSIMs
     const esimListResponse = await getEsimList(request, 1, 'order.user');
