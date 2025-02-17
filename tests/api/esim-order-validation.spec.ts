@@ -1,21 +1,14 @@
 import { test, expect } from '@playwright/test';
 import { getEsimList } from '../../api/endpoints/get-esim-list';
 import { orderEsim } from '../../api/endpoints/order-esim';
-import { postToken } from '../../api/endpoints/authentication';
-import EsimOrderData from '../../test-data/esim-order-data.json';
+import esimOrderData from '../../test-data/esim-order-data.json';
 
-const testData = EsimOrderData.merhaba_7days_1gb;
-let accessToken: string;
+const testData = esimOrderData.merhaba_7days_1gb;
 
 test.describe('eSIM Ordering and Validation API Tests', () => {
-  test.beforeAll(async ({ request }) => {
-    // Retrieve the OAuth2 token once before running the tests
-    accessToken = await postToken(request);
-  });
-
   test('Order and Validate eSIMs', async ({ request }) => {
     // Step 1: Order 6 "merhaba-7days-1gb" eSIMs
-    const orderResponse = await orderEsim(request, accessToken, testData.packageId, testData.description, testData.quantity);
+    const orderResponse = await orderEsim(request, testData.packageId, testData.description, testData.quantity);
 
     // Validate order creation response
     expect(orderResponse.status()).toBe(200);
@@ -27,7 +20,7 @@ test.describe('eSIM Ordering and Validation API Tests', () => {
     const orderId = orderData.data.id; // More descriptive name
 
     // Step 2: Fetch the list of eSIMs
-    const esimListResponse = await getEsimList(request, accessToken, 1, 'order.user');
+    const esimListResponse = await getEsimList(request, 1, 'order.user');
     expect(esimListResponse.status()).toBe(200);
     const esimListData = await esimListResponse.json();
 
@@ -37,9 +30,11 @@ test.describe('eSIM Ordering and Validation API Tests', () => {
     // Ensure exactly 6 eSIMs from our order are returned
     expect(orderedEsims).toHaveLength(testData.quantity);
 
-    // Validate that each eSIM has the correct package slug
+    // Validate that each eSIM has the correct order details
     orderedEsims.forEach((esim: any) => {
       expect(esim.simable.package_id).toBe(testData.packageId);
+      expect(esim.simable.description).toBe(testData.description);
+      expect(esim.simable.quantity).toBe(testData.quantity);
     });
   });
 });
